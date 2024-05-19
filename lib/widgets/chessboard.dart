@@ -9,7 +9,7 @@ import 'package:flutter_stateless_chessboard/models/short_move.dart';
 import 'package:flutter_stateless_chessboard/models/square.dart';
 import 'package:flutter_stateless_chessboard/utils.dart';
 import 'package:flutter_stateless_chessboard/widgets/ui_square.dart';
-import 'package:fpdart/fpdart.dart' show Option;
+import 'package:fpdart/fpdart.dart' show FpdartOnOption, Option;
 import 'package:provider/provider.dart';
 
 class Chessboard extends StatefulWidget {
@@ -93,27 +93,30 @@ class _ChessboardState extends State<Chessboard> {
   }
 
   void _handleClick(HalfMove halfMove) {
-    clickMove.match(
-      (t) {
-        final sameSquare = t.square == halfMove.square;
-        final sameColorPiece = t.piece
-            .map2<Piece, bool>(halfMove.piece, (t, r) => t.color == r.color)
-            .getOrElse(() => false);
+    clickMove.match(() => _setClickMove(halfMove), (t) {
+      final sameSquare = t.square == halfMove.square;
+      final sameColorPiece = t.piece
+          .map2<Piece, bool>(halfMove.piece, (t, r) => t.color == r.color)
+          .getOrElse(() => false);
 
-        if (sameSquare) {
-          _clearClickMove();
-        } else if (sameColorPiece) {
-          _setClickMove(halfMove);
-        } else {
-          widget.board.makeMove(ShortMove(
-            from: t.square,
-            to: halfMove.square,
-          ));
-          _clearClickMove();
-        }
-      },
-      () => _setClickMove(halfMove),
-    );
+      if (sameSquare) {
+        _clearClickMove();
+      } else if (sameColorPiece) {
+        _setClickMove(halfMove);
+      } else {
+        widget.board.makeMove(ShortMove(
+          from: t.square,
+          to: halfMove.square,
+        ));
+        _clearClickMove();
+      }
+    });
+
+    // .match(
+
+    //   (t) ,
+    //   () => ,
+    // );
   }
 
   void _setClickMove(HalfMove halfMove) {
