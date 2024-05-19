@@ -79,7 +79,7 @@ class _ChessboardState extends State<Chessboard> {
     return clickMove
         .filter((t) => t.square == square.name)
         .map((_) => widget.board.selectionHighlightColor)
-        .alt(() => Option.fromPredicate(
+        .alt(() => Option<Color>.fromPredicate(
               widget.board.lastMoveHighlightColor,
               (_) => widget.board.lastMove.contains(square.name),
             ))
