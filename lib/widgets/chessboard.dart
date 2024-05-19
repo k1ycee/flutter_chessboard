@@ -111,12 +111,6 @@ class _ChessboardState extends State<Chessboard> {
         _clearClickMove();
       }
     });
-
-    // .match(
-
-    //   (t) ,
-    //   () => ,
-    // );
   }
 
   void _setClickMove(HalfMove halfMove) {
